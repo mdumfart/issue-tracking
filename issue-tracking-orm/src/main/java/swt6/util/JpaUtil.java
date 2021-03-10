@@ -17,7 +17,7 @@ public class JpaUtil {
         return emFactory;
     }
 
-    public static synchronized EntityManager getEntityManager() {
+    public static synchronized EntityManager getEntityManager() throws IllegalStateException {
         if (emThread.get() == null) {
             emThread.set(getEntityManagerFactory().createEntityManager());
         }
@@ -39,6 +39,13 @@ public class JpaUtil {
         if (!tx.isActive()) tx.begin();
 
         return em;
+    }
+
+    public static synchronized void openTransaction() {
+        EntityManager em = getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        if (!tx.isActive()) tx.begin();
     }
 
     public static synchronized void commit() {
@@ -64,41 +71,22 @@ public class JpaUtil {
         }
     }
 
-    public static <T> T saveEntity(T entity) {
-        try {
-            EntityManager em = JpaUtil.getTransactedEntityManager();
-            entity = em.merge(entity);
-            JpaUtil.commit();
-        } catch (Exception e) {
-            JpaUtil.rollback();
-            throw e;
-        }
-
-        return entity;
-    }
-
     public static <T> T updateEntity(Serializable id, T entity, Class<T> type) {
         T storedEntity = null;
 
-        try {
-            EntityManager em = JpaUtil.getTransactedEntityManager();
+        EntityManager em = JpaUtil.getEntityManager();
 
-            if (id == null) {
-                throw new RuntimeException("Entity does not exist.");
-            }
-
-            storedEntity = em.find(type, id);
-            if (storedEntity == null) {
-                throw new RuntimeException("Entity does not exist.");
-            }
-
-            storedEntity = em.merge(entity);
-
-            JpaUtil.commit();
-        } catch (Exception e) {
-            JpaUtil.rollback();
-            throw e;
+        if (id == null) {
+            throw new RuntimeException("Entity does not exist.");
         }
+
+        storedEntity = em.find(type, id);
+        if (storedEntity == null) {
+            throw new RuntimeException("Entity does not exist.");
+        }
+
+        storedEntity = em.merge(entity);
+
 
         return storedEntity;
     }

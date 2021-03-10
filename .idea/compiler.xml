@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Annotation profile for projects-orm" enabled="true">
+      <profile name="Annotation profile for issue-tracking" enabled="true">
         <sourceOutputDir name="target/generated-sources/apt" />
         <sourceTestOutputDir name="target/generated-sources/apt-test" />
         <outputRelativeToContentRoot value="true" />
@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="intro-orm" target="11" />
+      <module name="issue-tracking-orm" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

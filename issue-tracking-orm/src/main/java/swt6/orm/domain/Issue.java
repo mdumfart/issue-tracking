@@ -6,22 +6,29 @@ import swt6.orm.domain.util.IssueState;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Issue implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     private IssueState state;
+
+    @Enumerated(EnumType.STRING)
     private IssuePriority priority;
+
     private double estimatedTime;
     private double progress;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @ManyToMany(mappedBy = "issues", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Employee> employees = new HashSet<>();
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Employee employee;
+
+    @org.hibernate.annotations.Fetch(FetchMode.SELECT)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Project project;
 
     public Issue() {
     }
@@ -79,15 +86,19 @@ public class Issue implements Serializable {
         this.progress = progress;
     }
 
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public void setEmployee(Employee employees) {
+        this.employee = employees;
     }
 
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

@@ -41,7 +41,7 @@ public class Employee implements Serializable {
     private Set<String> phones = new HashSet<>();
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @ManyToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Issue> issues = new HashSet<>();
 
     // Classes persisted with Hibernate must have a default constructor
@@ -122,6 +122,24 @@ public class Employee implements Serializable {
 
         logbookEntries.add(entry);
         entry.setEmployee(this);
+    }
+
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
+    }
+
+    public void addIssue(Issue issue) {
+        issues.add(issue);
+        issue.setEmployee(this);
+    }
+
+    public void removeIssue(Issue issue) {
+        issues.remove(issue);
+        issue.setEmployee(null);
     }
 
     @Override

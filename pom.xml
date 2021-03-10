@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>swt6.orm</groupId>
-    <artifactId>projects-orm</artifactId>
+    <artifactId>issue-tracking</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>worklog-orm</module>
+        <module>issue-tracking-orm</module>
     </modules>
 
     <properties>

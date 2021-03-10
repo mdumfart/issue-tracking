@@ -1,12 +1,24 @@
 package swt6.orm.domain;
 
-import java.io.Serializable;
+import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
 public class Project implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
+
+    @org.hibernate.annotations.Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Issue> issues = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -29,6 +41,24 @@ public class Project implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(Set<Issue> issues) {
+        this.issues = issues;
+    }
+
+    public void addIssue(Issue issue) {
+        issues.add(issue);
+        issue.setProject(this);
+    }
+
+    public void removeIssue(Issue issue) {
+        issues.remove(issue);
+        issue.setProject(null);
     }
 
     public String toString() {
