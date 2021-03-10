@@ -1,0 +1,3 @@
+# Project exclude paths
+/intro-orm/target/
+/worklog-orm/target/
