@@ -77,12 +77,12 @@ public class LogbookEntry implements Serializable {
         this.employee = employee;
     }
 
-    public void attachEmployee(Employee employee){
-        if(this.employee != null){
+    public void attachEmployee(Employee employee) {
+        if (this.employee != null) {
             this.employee.getLogbookEntries().remove(this);
         }
 
-        if(employee != null){
+        if (employee != null) {
             employee.getLogbookEntries().add(this);
         }
 

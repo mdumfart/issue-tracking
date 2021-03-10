@@ -11,7 +11,7 @@ public class JpaUtil {
 
   public static synchronized EntityManagerFactory getEntityManagerFactory() {
     if(emFactory == null){
-      emFactory = Persistence.createEntityManagerFactory("WorkLogPU");
+      emFactory = Persistence.createEntityManagerFactory("IssueTrackingPU");
     }
     return emFactory;
   }

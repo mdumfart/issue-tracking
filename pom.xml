@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>intro-orm</module>
         <module>worklog-orm</module>
     </modules>
 
@@ -20,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <hibernate.version>5.4.27.Final</hibernate.version>
-        <derby.version>10.15.2.0</derby.version>
 
         <junit.version>4.13.1</junit.version>
         <slf4j.version>1.7.30</slf4j.version>
@@ -57,35 +55,6 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyshared</artifactId>
-            <version>${derby.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <version>${derby.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyclient</artifactId>
-            <version>${derby.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- includes the embedded JDBC driver -->
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbytools</artifactId>
-            <version>${derby.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
         <!-- needed when using Java >= 9 -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -104,22 +73,11 @@
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.version}</version>
         </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jheinzel.maven</groupId>
-                <artifactId>derby-maven-plugin</artifactId>
-                <version>1.4</version>
-                <configuration>
-                    <derbyHome>${project.basedir}/data</derbyHome>
-                    <port>1527</port>
-                    <database>WorkLogDb</database>
-                    <username>user</username>
-                    <password>test</password>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.4</version>
+        </dependency>
+    </dependencies>
 </project>

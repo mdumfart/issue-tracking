@@ -27,9 +27,9 @@ public class Employee implements Serializable {
     //@OneToOne(cascade = CascadeType.ALL)
 
     // V3 Embedded
-    @AttributeOverride(name="zipCode", column = @Column(name="address_zipCode"))
-    @AttributeOverride(name="city", column = @Column(name="address_city"))
-    @AttributeOverride(name="street", column = @Column(name="address_street"))
+    @AttributeOverride(name = "zipCode", column = @Column(name = "address_zipCode"))
+    @AttributeOverride(name = "city", column = @Column(name = "address_city"))
+    @AttributeOverride(name = "street", column = @Column(name = "address_street"))
     private Address address;
 
 
@@ -44,8 +44,8 @@ public class Employee implements Serializable {
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
     @ElementCollection
-    @CollectionTable(name="EMPL_PHONES", joinColumns = @JoinColumn(name="EMPL_ID"))
-    @Column(name="PHONE_NUMBER")
+    @CollectionTable(name = "EMPL_PHONES", joinColumns = @JoinColumn(name = "EMPL_ID"))
+    @Column(name = "PHONE_NUMBER")
     private Set<String> phones = new HashSet<>();
 
     // Classes persisted with Hibernate must have a default constructor
@@ -119,8 +119,8 @@ public class Employee implements Serializable {
         this.logbookEntries = logbookEntries;
     }
 
-    public void addLogbookEntry(LogbookEntry entry){
-        if(entry.getEmployee() != null){
+    public void addLogbookEntry(LogbookEntry entry) {
+        if (entry.getEmployee() != null) {
             entry.getEmployee().logbookEntries.remove(entry);
         }
 
@@ -133,7 +133,7 @@ public class Employee implements Serializable {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         StringBuffer sb = new StringBuffer();
         sb.append(String.format("%d: %s, %s (%s)", id, lastName, firstName, dateOfBirth.format(fmt)));
-        if(address != null){
+        if (address != null) {
             sb.append(", " + address);
         }
         return sb.toString();

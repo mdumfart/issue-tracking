@@ -4,7 +4,7 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-	<persistence-unit name="WorkLogPU">
+	<persistence-unit name="IssueTrackingPU">
 		<!-- The provider only needs to be set if you use several JPA providers -->
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
@@ -15,11 +15,13 @@
 			<property name="hibernate.archive.autodetection" value="class" />
 
 			<!-- JPA 2.0 standard properties -->
-			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost/WorkLogDb;create=true" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> <!-- DB Driver -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres" /> <!-- BD Mane -->
+			<property name="javax.persistence.jdbc.user" value="user" /> <!-- DB User -->
+			<property name="javax.persistence.jdbc.password" value="user" /> <!-- DB Password -->
 
 			<!-- Hibernate EntityManager properties -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
 
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="true" />

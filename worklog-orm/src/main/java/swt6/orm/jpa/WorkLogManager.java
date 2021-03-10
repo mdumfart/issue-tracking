@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class WorkLogManager {
     private static void insertEmployee1 (Employee empl){
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("WorkLogPU");
+        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("IssueTrackingPU");
         EntityManager em = null;
         EntityTransaction tx = null;
 

@@ -2,12 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="intro-orm" />
-      </profile>
       <profile name="Annotation profile for projects-orm" enabled="true">
         <sourceOutputDir name="target/generated-sources/apt" />
         <sourceTestOutputDir name="target/generated-sources/apt-test" />
@@ -16,6 +10,9 @@
         <module name="worklog-orm" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="intro-orm" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
