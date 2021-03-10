@@ -1,21 +1,20 @@
 package swt6.orm.domain;
 
+import swt6.orm.domain.util.AddressPK;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
-// V2
-//@Entity
-
-// V3 Embedded
-@Embeddable
+@Entity
+@IdClass(AddressPK.class)
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //  @Id
-//  @GeneratedValue
-//  private Long     id;
+    @Id
     private String zipCode;
+    @Id
     private String city;
+    @Id
     private String street;
 
     public Address() {
@@ -26,14 +25,6 @@ public class Address implements Serializable {
         this.city = city;
         this.street = street;
     }
-
-//  public Long getId() {
-//    return id;
-//  }
-//
-//  public void setId(Long id) {
-//    this.id = id;
-//  }
 
     public String getCity() {
         return city;

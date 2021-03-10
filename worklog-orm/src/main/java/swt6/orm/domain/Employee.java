@@ -15,21 +15,13 @@ import java.util.Set;
 @DiscriminatorValue("E")
 public class Employee implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
 
-    // V1 Serialized
-
-    // V2 One-To-One
-    //@OneToOne(cascade = CascadeType.ALL)
-
-    // V3 Embedded
-    @AttributeOverride(name = "zipCode", column = @Column(name = "address_zipCode"))
-    @AttributeOverride(name = "city", column = @Column(name = "address_city"))
-    @AttributeOverride(name = "street", column = @Column(name = "address_street"))
+    @OneToOne
     private Address address;
 
 
@@ -47,6 +39,10 @@ public class Employee implements Serializable {
     @CollectionTable(name = "EMPL_PHONES", joinColumns = @JoinColumn(name = "EMPL_ID"))
     @Column(name = "PHONE_NUMBER")
     private Set<String> phones = new HashSet<>();
+
+    @org.hibernate.annotations.Fetch(FetchMode.SELECT)
+    @ManyToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Issue> issues = new HashSet<>();
 
     // Classes persisted with Hibernate must have a default constructor
     // (newInstance of reflection API)
