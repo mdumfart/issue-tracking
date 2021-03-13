@@ -45,14 +45,20 @@ public class JpaUtil {
         EntityManager em = getEntityManager();
         EntityTransaction tx = em.getTransaction();
 
-        if (!tx.isActive()) tx.begin();
+        if (!tx.isActive()) {
+            System.out.println("************ Open transaction ************");
+            tx.begin();
+        }
     }
 
     public static synchronized void commit() {
         EntityManager em = getEntityManager();
         EntityTransaction tx = em.getTransaction();
 
-        if (tx.isActive()) tx.commit();
+        if (tx.isActive()) {
+            System.out.println("************ Close transaction ***********");
+            tx.commit();
+        }
         closeEntityManager();
     }
 

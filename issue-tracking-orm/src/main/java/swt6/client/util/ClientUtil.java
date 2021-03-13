@@ -1,4 +1,4 @@
-package swt6.orm.client.util;
+package swt6.client.util;
 
 public class ClientUtil {
     public static void printHeader(String header) {
@@ -7,5 +7,10 @@ public class ClientUtil {
 
     public static void printDivider() {
         System.out.println("========================================");
+    }
+
+    public static void printSubHeader(String subheader) {
+        System.out.println();
+        System.out.println(subheader);
     }
 }

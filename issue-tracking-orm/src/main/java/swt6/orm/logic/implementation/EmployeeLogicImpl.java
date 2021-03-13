@@ -2,6 +2,7 @@ package swt6.orm.logic.implementation;
 
 import swt6.orm.dao.interfaces.EmployeeDao;
 import swt6.orm.domain.Employee;
+import swt6.orm.domain.Issue;
 import swt6.orm.logic.interfaces.EmployeeLogic;
 import swt6.util.JpaUtil;
 
@@ -63,7 +64,7 @@ public class EmployeeLogicImpl implements EmployeeLogic {
     }
 
     @Override
-    public Employee findById(int id) {
+    public Employee findById(long id) {
         Employee employee = null;
 
         try {

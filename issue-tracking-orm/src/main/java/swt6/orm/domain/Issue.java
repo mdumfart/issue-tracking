@@ -33,17 +33,16 @@ public class Issue implements Serializable {
     public Issue() {
     }
 
-    public Issue(IssueState state, IssuePriority priority, double progress) {
+    public Issue(IssueState state, IssuePriority priority, double progress, Project project) {
         this.state = state;
         this.priority = priority;
         this.progress = progress;
+        this.project = project;
     }
 
-    public Issue(IssueState state, IssuePriority priority, double estimatedTime, double progress) {
-        this.state = state;
-        this.priority = priority;
+    public Issue(IssueState state, IssuePriority priority, double estimatedTime, double progress, Project project) {
+        this(state, priority, progress, project);
         this.estimatedTime = estimatedTime;
-        this.progress = progress;
     }
 
     public Long getId() {

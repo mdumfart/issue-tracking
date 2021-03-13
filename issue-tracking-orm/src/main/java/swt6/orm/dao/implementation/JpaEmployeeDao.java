@@ -27,7 +27,7 @@ public class JpaEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public Employee findById(int id) {
+    public Employee findById(long id) {
         EntityManager em = JpaUtil.getEntityManager();
 
         return em.find(Employee.class, id);

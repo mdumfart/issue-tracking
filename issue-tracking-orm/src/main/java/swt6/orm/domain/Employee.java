@@ -39,7 +39,7 @@ public class Employee implements Serializable {
     @CollectionTable(name = "EMPL_PHONES", joinColumns = @JoinColumn(name = "EMPL_ID"))
     @Column(name = "PHONE_NUMBER")
     private Set<String> phones = new HashSet<>();
-
+    
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Issue> issues = new HashSet<>();

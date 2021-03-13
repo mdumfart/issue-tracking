@@ -10,7 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/intro-orm/pom.xml" />
-        <option value="$PROJECT_DIR$/issue-tracking-orm/pom.xml" />
+        <option value="$PROJECT_DIR$/issue-tracking-client/pom.xml" />
       </set>
     </option>
   </component>
