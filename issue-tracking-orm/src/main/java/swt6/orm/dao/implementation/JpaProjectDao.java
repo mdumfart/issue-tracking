@@ -27,7 +27,7 @@ public class JpaProjectDao implements ProjectDao {
     }
 
     @Override
-    public Project findById(int id) {
+    public Project findById(long id) {
         EntityManager em = JpaUtil.getEntityManager();
 
         return em.find(Project.class, id);

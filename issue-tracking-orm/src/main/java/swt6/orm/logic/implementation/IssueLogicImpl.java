@@ -1,15 +1,29 @@
 package swt6.orm.logic.implementation;
 
+import swt6.orm.dao.interfaces.EmployeeDao;
 import swt6.orm.dao.interfaces.IssueDao;
+import swt6.orm.dao.interfaces.ProjectDao;
+import swt6.orm.domain.Employee;
 import swt6.orm.domain.Issue;
+import swt6.orm.domain.LogbookEntry;
+import swt6.orm.domain.Project;
+import swt6.orm.domain.util.IssueState;
 import swt6.orm.logic.interfaces.IssueLogic;
 import swt6.util.JpaUtil;
 
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
+
 public class IssueLogicImpl implements IssueLogic {
     private final IssueDao issueDao;
+    private final ProjectDao projectDao;
+    private final EmployeeDao employeeDao;
 
-    public IssueLogicImpl(IssueDao issueDao) {
+    public IssueLogicImpl(IssueDao issueDao, ProjectDao projectDao, EmployeeDao employeeDao) {
         this.issueDao = issueDao;
+        this.projectDao = projectDao;
+        this.employeeDao = employeeDao;
     }
 
     @Override
@@ -78,5 +92,65 @@ public class IssueLogicImpl implements IssueLogic {
         }
 
         return issue;
+    }
+
+    @Override
+    public Set<Issue> findIssuesByProject(Project project) {
+        Set<Issue> issues = new HashSet<>();
+
+        try {
+            JpaUtil.openTransaction();
+
+            Project p = projectDao.findById(project.getId());
+
+            if (p != null) {
+                issues = p.getIssues();
+            }
+
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        return issues;
+    }
+
+    @Override
+    public double getInvestedTimeByEmployeeAndProject(Employee employee, Project project) {
+        Set<Issue> issues = null;
+
+        try {
+            JpaUtil.openTransaction();
+
+            Project p = projectDao.findById(project.getId());
+            Employee e = employeeDao.findById(employee.getId());
+
+            if (p != null && e != null) {
+                issues = issueDao.findIssueByProjectEmployeeAndState(p, e, IssueState.resolved);
+            }
+
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        double timeSum = 0.0;
+
+        if (issues != null) {
+            for(Issue i : issues) {
+                for(LogbookEntry lbe : i.getLogbookEntries()) {
+                    timeSum += ChronoUnit.MINUTES.between(lbe.getStartTime(), lbe.getEndTime()) / 60d;
+                }
+            }
+        }
+
+        return timeSum;
+    }
+
+    @Override
+    public double getTimeToInvestByEmployeeInProject(Employee employee, Project project) {
+        return 0;
     }
 }

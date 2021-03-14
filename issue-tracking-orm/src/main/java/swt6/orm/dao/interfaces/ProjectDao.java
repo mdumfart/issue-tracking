@@ -6,5 +6,5 @@ public interface ProjectDao {
     Project create(Project project);
     Project update(Project project);
     void delete(Project project);
-    Project findById(int id);
+    Project findById(long id);
 }

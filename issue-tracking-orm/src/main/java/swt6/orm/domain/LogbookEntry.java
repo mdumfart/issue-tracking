@@ -28,6 +28,10 @@ public class LogbookEntry implements Serializable {
     //@JoinColumn(name = "EMPLOYEE_ID") // default
     private Employee employee;
 
+    @org.hibernate.annotations.Fetch(FetchMode.JOIN)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Issue issue;
+
     public LogbookEntry() {
     }
 
@@ -87,6 +91,26 @@ public class LogbookEntry implements Serializable {
         }
 
         this.employee = employee;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
+    public void attachIssue(Issue issue) {
+        if (this.issue != null) {
+            this.issue.getLogbookEntries().remove(this);
+        }
+
+        if (issue != null) {
+            issue.getLogbookEntries().add(this);
+        }
+
+        this.issue = issue;
     }
 
     @Override

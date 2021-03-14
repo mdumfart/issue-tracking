@@ -17,7 +17,7 @@ public class Project implements Serializable {
     private String name;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Issue> issues = new HashSet<>();
 
     public Long getId() {
@@ -62,6 +62,6 @@ public class Project implements Serializable {
     }
 
     public String toString() {
-        return name;
+        return String.format("%d: %s", id, name);
     }
 }

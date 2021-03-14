@@ -41,7 +41,7 @@ public class Employee implements Serializable {
     private Set<String> phones = new HashSet<>();
     
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Issue> issues = new HashSet<>();
 
     // Classes persisted with Hibernate must have a default constructor

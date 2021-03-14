@@ -17,7 +17,7 @@ public class JpaIssueTrackingLogicFactory implements IssueTrackingLogicFactory{
 
     @Override
     public IssueLogic getIssueLogic() {
-        return new IssueLogicImpl(new JpaIssueDao());
+        return new IssueLogicImpl(new JpaIssueDao(), new JpaProjectDao(), new JpaEmployeeDao());
     }
 
     @Override
