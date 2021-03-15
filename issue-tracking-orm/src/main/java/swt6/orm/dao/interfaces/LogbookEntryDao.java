@@ -6,5 +6,5 @@ public interface LogbookEntryDao {
     LogbookEntry create(LogbookEntry logbookEntry);
     LogbookEntry update(LogbookEntry logbookEntry);
     void delete(LogbookEntry logbookEntry);
-    LogbookEntry findById(int id);
+    LogbookEntry findById(long id);
 }

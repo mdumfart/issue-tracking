@@ -7,6 +7,7 @@ import swt6.orm.domain.util.IssueState;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,12 +18,15 @@ public class Issue implements Serializable {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private IssueState state;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private IssuePriority priority;
 
     private double estimatedTime = 0.0d;
+    @Column(nullable = false)
     private double progress;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
@@ -46,6 +50,8 @@ public class Issue implements Serializable {
         this.priority = priority;
         this.progress = progress;
         this.project = project;
+
+        if (project != null) project.addIssue(this);
     }
 
     public Issue(String name, IssueState state, IssuePriority priority, double estimatedTime, double progress, Project project) {
@@ -145,5 +151,18 @@ public class Issue implements Serializable {
         sb.append(String.format(", progress: %d%%", (int)(progress * 100)));
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Issue issue = (Issue) o;
+        return Double.compare(issue.estimatedTime, estimatedTime) == 0 && Double.compare(issue.progress, progress) == 0 && id.equals(issue.id) && name.equals(issue.name) && state == issue.state && priority == issue.priority && Objects.equals(employee, issue.employee) && project.equals(issue.project) && Objects.equals(logbookEntries, issue.logbookEntries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, state, priority, estimatedTime, progress, employee, project, logbookEntries);
     }
 }

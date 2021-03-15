@@ -27,7 +27,7 @@ public class JpaLogbookEntryDao implements LogbookEntryDao {
     }
 
     @Override
-    public LogbookEntry findById(int id) {
+    public LogbookEntry findById(long id) {
         EntityManager em = JpaUtil.getEntityManager();
 
         return em.find(LogbookEntry.class, id);

@@ -2,6 +2,7 @@ package swt6.orm.dao.implementation;
 
 import swt6.orm.dao.interfaces.AddressDao;
 import swt6.orm.domain.Address;
+import swt6.orm.domain.util.AddressPK;
 import swt6.util.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -19,5 +20,12 @@ public class JpaAddressDao implements AddressDao {
         EntityManager em = JpaUtil.getEntityManager();
 
         em.remove(address);
+    }
+
+    @Override
+    public Address find(AddressPK address) {
+        EntityManager em = JpaUtil.getEntityManager();
+
+        return em.find(Address.class, address);
     }
 }

@@ -11,6 +11,9 @@ public interface IssueDao {
     Issue create(Issue issue);
     Issue update(Issue issue);
     void delete(Issue issue);
-    Issue findById(int id);
-    Set<Issue> findIssueByProjectEmployeeAndState(Project project, Employee employee, IssueState state);
+    Issue findById(long id);
+    Set<Issue> findIssuesByProjectEmployeeAndState(Project project, Employee employee, IssueState state);
+    Set<Issue> findIssuesByProjectAndState(Project project, IssueState state);
+    Set<Issue> findIssuesByEmployeeAndState(Employee employee, IssueState state);
+    Set<Issue> findAll();
 }

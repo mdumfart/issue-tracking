@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,9 @@ public class Employee implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     private LocalDate dateOfBirth;
 
@@ -39,7 +42,7 @@ public class Employee implements Serializable {
     @CollectionTable(name = "EMPL_PHONES", joinColumns = @JoinColumn(name = "EMPL_ID"))
     @Column(name = "PHONE_NUMBER")
     private Set<String> phones = new HashSet<>();
-    
+
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Issue> issues = new HashSet<>();
@@ -151,5 +154,18 @@ public class Employee implements Serializable {
             sb.append(", " + address);
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id.equals(employee.id) && firstName.equals(employee.firstName) && lastName.equals(employee.lastName) && Objects.equals(dateOfBirth, employee.dateOfBirth) && Objects.equals(address, employee.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, dateOfBirth, address);
     }
 }

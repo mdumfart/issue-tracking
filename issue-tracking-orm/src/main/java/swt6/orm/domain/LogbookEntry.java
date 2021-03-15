@@ -13,8 +13,11 @@ public class LogbookEntry implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String activity;
+    @Column(nullable = false)
     private LocalDateTime startTime;
+    @Column(nullable = false)
     private LocalDateTime endTime;
 
     // fetching strategies:

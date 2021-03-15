@@ -35,6 +35,12 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.194</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -65,23 +71,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- run with: mvn exec:java -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${exec-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>swt6.orm.jpa.WorkLogManager</mainClass>
-                </configuration>
             </plugin>
         </plugins>
     </build>

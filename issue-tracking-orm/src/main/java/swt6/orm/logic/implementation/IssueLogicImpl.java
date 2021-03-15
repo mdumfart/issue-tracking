@@ -77,7 +77,7 @@ public class IssueLogicImpl implements IssueLogic {
     }
 
     @Override
-    public Issue findById(int id) {
+    public Issue findById(long id) {
         Issue issue = null;
 
         try {
@@ -127,7 +127,52 @@ public class IssueLogicImpl implements IssueLogic {
             Employee e = employeeDao.findById(employee.getId());
 
             if (p != null && e != null) {
-                issues = issueDao.findIssueByProjectEmployeeAndState(p, e, IssueState.resolved);
+                issues = issueDao.findIssuesByProjectEmployeeAndState(p, e, IssueState.resolved);
+            }
+
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        return getTimeFromIssues(issues);
+    }
+
+    @Override
+    public double getInvestedTimeByProjectAndState(Project project, IssueState state) {
+        Set<Issue> issues = null;
+
+        try {
+            JpaUtil.openTransaction();
+
+            Project p = projectDao.findById(project.getId());
+
+            if (p != null) {
+                issues = issueDao.findIssuesByProjectAndState(p, state);
+            }
+
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        return getTimeFromIssues(issues);
+    }
+
+    @Override
+    public double getTimeToInvestByEmployeeInProject(Employee employee, Project project) {
+        Set<Issue> issues = null;
+
+        try {
+            JpaUtil.openTransaction();
+
+            Project p = projectDao.findById(project.getId());
+            Employee e = employeeDao.findById(employee.getId());
+
+            if (p != null && e != null) {
+                issues = issueDao.findIssuesByProjectEmployeeAndState(p, e, IssueState.open);
             }
 
             JpaUtil.commit();
@@ -140,9 +185,7 @@ public class IssueLogicImpl implements IssueLogic {
 
         if (issues != null) {
             for(Issue i : issues) {
-                for(LogbookEntry lbe : i.getLogbookEntries()) {
-                    timeSum += ChronoUnit.MINUTES.between(lbe.getStartTime(), lbe.getEndTime()) / 60d;
-                }
+                timeSum += i.getEstimatedTime();
             }
         }
 
@@ -150,7 +193,45 @@ public class IssueLogicImpl implements IssueLogic {
     }
 
     @Override
-    public double getTimeToInvestByEmployeeInProject(Employee employee, Project project) {
-        return 0;
+    public Set<Issue> findIssuesByEmployeeAndState(Employee employee, IssueState state) {
+        Set<Issue> issues = null;
+
+        try {
+            JpaUtil.openTransaction();
+
+            Employee e = employeeDao.findById(employee.getId());
+
+            if (e != null) {
+                issues = issueDao.findIssuesByEmployeeAndState(employee, state);
+            }
+
+            JpaUtil.commit();
+        } catch (Exception e) {
+            JpaUtil.rollback();
+            throw e;
+        }
+
+        return issues;
+    }
+
+    @Override
+    public double getTimeInvestedByEmployeeAndState(Employee employee, IssueState state) {
+        Set<Issue> issues = findIssuesByEmployeeAndState(employee, state);
+
+        return getTimeFromIssues(issues);
+    }
+
+    private double getTimeFromIssues(Set<Issue> issues) {
+        double timeSum = 0.0;
+
+        if (issues != null) {
+            for(Issue i : issues) {
+                for (LogbookEntry lbe: i.getLogbookEntries()) {
+                    timeSum += ChronoUnit.MINUTES.between(lbe.getStartTime(), lbe.getEndTime()) / 60d;
+                }
+            }
+        }
+
+        return timeSum;
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,6 +15,7 @@ public class Project implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(nullable = false)
     private String name;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
@@ -63,5 +65,18 @@ public class Project implements Serializable {
 
     public String toString() {
         return String.format("%d: %s", id, name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return id.equals(project.id) && name.equals(project.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
