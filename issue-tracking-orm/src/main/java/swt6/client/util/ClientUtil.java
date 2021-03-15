@@ -2,6 +2,7 @@ package swt6.client.util;
 
 public class ClientUtil {
     public static void printHeader(String header) {
+        System.out.println();
         System.out.println("===============" + header + "===============");
     }
 

@@ -59,8 +59,8 @@ public class TemporaryEmployee extends Employee {
         StringBuffer sb = new StringBuffer(super.toString());
         sb.append(", hourlyRate=" + hourlyRate);
         sb.append(", renter=" + renter);
-        sb.append(", startDate=" + startDate.format(formatter));
-        sb.append(", endDate=" + endDate.format(formatter));
+        if (startDate != null) sb.append(", startDate=" + startDate.format(formatter));
+        if (endDate != null) sb.append(", endDate=" + endDate.format(formatter));
 
         return sb.toString();
     }

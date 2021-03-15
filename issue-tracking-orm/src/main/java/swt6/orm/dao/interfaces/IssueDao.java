@@ -16,4 +16,5 @@ public interface IssueDao {
     Set<Issue> findIssuesByProjectAndState(Project project, IssueState state);
     Set<Issue> findIssuesByEmployeeAndState(Employee employee, IssueState state);
     Set<Issue> findAll();
+    Set<Issue> findIssuesByEmployeeAndProject(Employee e, Project p);
 }

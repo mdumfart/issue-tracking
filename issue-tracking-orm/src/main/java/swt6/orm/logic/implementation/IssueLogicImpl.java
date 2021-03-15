@@ -127,7 +127,7 @@ public class IssueLogicImpl implements IssueLogic {
             Employee e = employeeDao.findById(employee.getId());
 
             if (p != null && e != null) {
-                issues = issueDao.findIssuesByProjectEmployeeAndState(p, e, IssueState.resolved);
+                issues = issueDao.findIssuesByEmployeeAndProject(e, p);
             }
 
             JpaUtil.commit();

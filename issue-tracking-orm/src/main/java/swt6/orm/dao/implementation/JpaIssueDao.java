@@ -58,7 +58,7 @@ public class JpaIssueDao implements IssueDao {
 
         issueCQ.where(cb.equal(issue.get(Issue_.STATE), peState),
                 cb.equal(issue.get(Issue_.PROJECT), peProject),
-                cb.equal(issue.get(Issue_.EMPLOYEE), peEmployee)).select(issue);
+                cb.equal(issue.get(Issue_.EMPLOYEE), peEmployee)).select(issue).orderBy(cb.asc(issue.get(Issue_.ID)));
 
         TypedQuery<Issue> entriesQry = em.createQuery(issueCQ);
         entriesQry.setParameter(peProject, project);
@@ -81,7 +81,7 @@ public class JpaIssueDao implements IssueDao {
 
 
         issueCQ.where(cb.equal(issue.get(Issue_.STATE), peState),
-                cb.equal(issue.get(Issue_.PROJECT), peProject)).select(issue);
+                cb.equal(issue.get(Issue_.PROJECT), peProject)).select(issue).orderBy(cb.asc(issue.get(Issue_.ID)));
 
         TypedQuery<Issue> entriesQry = em.createQuery(issueCQ);
         entriesQry.setParameter(peProject, project);
@@ -102,7 +102,7 @@ public class JpaIssueDao implements IssueDao {
         ParameterExpression<IssueState> peState = cb.parameter(IssueState.class);
 
         issueCQ.where(cb.equal(issue.get(Issue_.EMPLOYEE), peEmployee),
-                cb.equal(issue.get(Issue_.STATE), peState)).select(issue);
+                cb.equal(issue.get(Issue_.STATE), peState)).select(issue).orderBy(cb.asc(issue.get(Issue_.ID)));
 
         TypedQuery<Issue> entriesQry = em.createQuery(issueCQ);
         entriesQry.setParameter(peEmployee, employee);
@@ -116,7 +116,28 @@ public class JpaIssueDao implements IssueDao {
         EntityManager em = JpaUtil.getEntityManager();
 
         return new HashSet<>(
-                em.createQuery("Select issue from Issue issue", Issue.class).getResultList()
+                em.createQuery("Select issue from Issue issue order by issue.id", Issue.class).getResultList()
         );
+    }
+
+    @Override
+    public Set<Issue> findIssuesByEmployeeAndProject(Employee e, Project p) {
+        EntityManager em = JpaUtil.getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaQuery<Issue> issueCQ = cb.createQuery(Issue.class);
+        Root<Issue> issue = issueCQ.from(Issue.class);
+
+        ParameterExpression<Employee> peEmployee = cb.parameter(Employee.class);
+        ParameterExpression<Project> peProject = cb.parameter(Project.class);
+
+        issueCQ.where(cb.equal(issue.get(Issue_.EMPLOYEE), peEmployee),
+                cb.equal(issue.get(Issue_.PROJECT), peProject)).select(issue).orderBy(cb.asc(issue.get(Issue_.ID)));
+
+        TypedQuery<Issue> entriesQry = em.createQuery(issueCQ);
+        entriesQry.setParameter(peEmployee, e);
+        entriesQry.setParameter(peProject, p);
+
+        return new HashSet<>(entriesQry.getResultList());
     }
 }

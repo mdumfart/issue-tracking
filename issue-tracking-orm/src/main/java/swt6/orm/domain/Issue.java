@@ -51,7 +51,8 @@ public class Issue implements Serializable {
         this.progress = progress;
         this.project = project;
 
-        if (project != null) project.addIssue(this);
+        //TODO
+        //if (project != null) project.addIssue(this);
     }
 
     public Issue(String name, IssueState state, IssuePriority priority, double estimatedTime, double progress, Project project) {
@@ -144,11 +145,15 @@ public class Issue implements Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
 
-        sb.append(String.format("Issue %d: %s ", id, state));
+        sb.append(String.format("Issue %d: %s, %s ", id, name, state));
 
         if (estimatedTime != 0.0d) sb.append(String.format(", estimated time: %.2f" , estimatedTime));
 
         sb.append(String.format(", progress: %d%%", (int)(progress * 100)));
+
+        if (employee != null) {
+            sb.append(String.format(" --- assigned employee: %s", employee.toString()));
+        }
 
         return sb.toString();
     }
