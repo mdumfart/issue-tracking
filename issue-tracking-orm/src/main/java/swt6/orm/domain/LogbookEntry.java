@@ -20,19 +20,12 @@ public class LogbookEntry implements Serializable {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    // fetching strategies:
-    //  [FetchMode.JOIN]    [FetchType.EAGER]   1 join, eager fetch
-    //  FetchMode.SELECT    [FetchType.EAGER]   2 selects, eager fetch
-    //  [FetchMode.SELECT]  FetchType.LAZY      2 selects, lazy fetch
-    //  FetchMode.JOIN      FetchType.LAZY      contradictory
-    // Default fetch strategy: EAGER JOIN
-    @org.hibernate.annotations.Fetch(FetchMode.JOIN)
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    //@JoinColumn(name = "EMPLOYEE_ID") // default
+    @org.hibernate.annotations.Fetch(FetchMode.SELECT)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Employee employee;
 
-    @org.hibernate.annotations.Fetch(FetchMode.JOIN)
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Fetch(FetchMode.SELECT)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Issue issue;
 
     public LogbookEntry() {

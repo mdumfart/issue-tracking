@@ -30,15 +30,15 @@ public class Issue implements Serializable {
     private double progress;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Employee employee;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Project project;
 
     @org.hibernate.annotations.Fetch(FetchMode.SELECT)
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private Set<LogbookEntry> logbookEntries = new HashSet<>();
 
     public Issue() {
@@ -50,9 +50,6 @@ public class Issue implements Serializable {
         this.priority = priority;
         this.progress = progress;
         this.project = project;
-
-        //TODO
-        //if (project != null) project.addIssue(this);
     }
 
     public Issue(String name, IssueState state, IssuePriority priority, double estimatedTime, double progress, Project project) {

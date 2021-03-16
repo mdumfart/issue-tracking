@@ -96,17 +96,4 @@ public class JpaUtil {
 
         return storedEntity;
     }
-
-    public static <T> T removeEntity(T entity) {
-        try {
-            EntityManager em = JpaUtil.getTransactedEntityManager();
-            em.remove(entity);
-            JpaUtil.commit();
-        } catch (Exception e) {
-            JpaUtil.rollback();
-            throw e;
-        }
-
-        return entity;
-    }
 }
